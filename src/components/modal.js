@@ -1,23 +1,21 @@
-const handleEscapeKeydown = function (e, popupElement) {
+const handleEscapeKeydown = function (e) {
   if (e.key === "Escape") {
-    hidePopup(popupElement);
-    document.removeEventListener("keydown", (e) =>
-      handleEscapeKeydown(e, popupElement)
-    );
+    const openedPopup = document.querySelector(".popup_is-opened");
+    hidePopup(openedPopup);
   }
 };
 
-const handleClickOverlay = function (e, popupElement) {
-  if (e.target === popupElement) {
-    hidePopup(popupElement);
-    popupElement.removeEventListener("click", (e) =>
-      handleClickOverlay(e, popupElement)
-    );
+const handleClickOverlay = function (e) {
+  const openedPopup = document.querySelector(".popup_is-opened");
+  if (e.target === openedPopup) {
+    hidePopup(openedPopup);
   }
 };
 
 export const hidePopup = function (popupElement) {
   popupElement.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", handleEscapeKeydown);
+  popupElement.removeEventListener("click", handleClickOverlay);
 };
 
 export const showPopup = function (popupElement) {
@@ -25,10 +23,6 @@ export const showPopup = function (popupElement) {
   popupElement
     .querySelector(".popup__close")
     .addEventListener("click", () => hidePopup(popupElement), { once: true });
-  popupElement.addEventListener("click", (e) =>
-    handleClickOverlay(e, popupElement)
-  );
-  document.addEventListener("keydown", (e) =>
-    handleEscapeKeydown(e, popupElement)
-  );
+  popupElement.addEventListener("click", handleClickOverlay);
+  document.addEventListener("keydown", handleEscapeKeydown);
 };

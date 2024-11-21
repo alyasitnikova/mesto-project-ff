@@ -30,10 +30,8 @@ const jobInput = editFormElement.querySelector(
   ".popup__input_type_description"
 );
 
-// Добавление класса всем попапам для плавной анимации
-editPopup.classList.add("popup_is-animated");
-addPopup.classList.add("popup_is-animated");
-imagePopup.classList.add("popup_is-animated");
+const imagePopupName = imagePopup.querySelector(".popup__caption");
+const imagePopupPicture = imagePopup.querySelector(".popup__image");
 
 // Обработчики событий
 const handleEditFormSubmit = function (e) {
@@ -69,11 +67,9 @@ const handleAddFormSubmit = function (e) {
 };
 
 const openImage = function (card) {
-  imagePopup.querySelector(".popup__caption").textContent = card.name;
-  imagePopup.querySelector(".popup__image").src = card.link;
-  imagePopup.querySelector(
-    ".popup__image"
-  ).alt = `${card.name}: фото местности`;
+  imagePopupName.textContent = card.name;
+  imagePopupPicture.src = card.link;
+  imagePopupPicture.alt = `${card.name}: фото местности`;
   showPopup(imagePopup);
 };
 
@@ -95,13 +91,13 @@ editButton.addEventListener("click", () => {
   nameInput.value = titleElement.textContent;
   jobInput.value = descriptionElemet.textContent;
 
-  editFormElement.addEventListener("submit", handleEditFormSubmit);
-
   showPopup(editPopup);
 });
 
 addButton.addEventListener("click", () => {
-  addFormElement.addEventListener("submit", handleAddFormSubmit);
-
   showPopup(addPopup);
 });
+
+// Слушатели нажатия на кнопку Сохранить
+editFormElement.addEventListener("submit", handleEditFormSubmit);
+addFormElement.addEventListener("submit", handleAddFormSubmit);
